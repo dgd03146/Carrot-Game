@@ -1,2 +1,2 @@
-# Carrot-Game
-Find carrots
+# Find-Minions-Game
+Find Minions
