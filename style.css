@@ -3,9 +3,11 @@
 
 body {
   margin: 0;
-  background-image: url("img/background.png");
+  text-align: center;
+  box-sizing: border-box;
+  background-image: url("img/minion-biz-featured.jpg");
+
   background-repeat: no-repeat;
-  background-size: 100%;
 }
 
 button {
@@ -14,9 +16,21 @@ button {
   cursor: pointer;
 }
 
+.background {
+  position: relative;
+  background-image: url("img/background.png");
+  background-repeat: no-repeat;
+  background-size: 70vw 80vh;
+  width: 70vw;
+  height: 80vh;
+  margin: auto;
+  margin-top: 80px;
+  border-radius: 32px;
+  border: solid #fbd85d;
+}
+
 .display {
   text-align: center;
-  margin: 3rem;
 }
 
 .play {
@@ -25,9 +39,9 @@ button {
   background-color: #fbd85d;
   border: solid black;
   border-radius: 18px;
-  font-size: 2.5vw;
+  font-size: 2.8vw;
   color: #2c4a6a;
-  margin-bottom: 1rem;
+  margin: 1vw 0;
   transition: all 300ms ease-out;
 }
 
@@ -42,9 +56,9 @@ button {
   background-color: white;
   line-height: 5vh;
   font-size: 2vw;
-  border-radius: 18px;
+  border-radius: 24px;
   border: black solid;
-  margin-bottom: 1rem;
+  margin-bottom: 1vw;
 }
 
 .count {
@@ -57,10 +71,20 @@ button {
   border: solid black;
   line-height: 6vh;
   font-size: 2vw;
-  margin-bottom: 8rem;
+  margin-bottom: 2vw;
 }
 
 .figures {
-  background-color: white;
-  height: 50%;
+  position: absolute;
+  background-color: red;
+  width: 100%;
+  height: 65%;
+  bottom: 0;
+  border-radius: 0 0 32px 32px;
+}
+
+.minions {
+  position: absolute;
+  top: 0px;
+  cursor: pointer;
 }
