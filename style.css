@@ -1,4 +1,6 @@
 :root {
+  --color--blue: #2c4a6a;
+  --color--yellow: #fbd85d;
 }
 
 body {
@@ -13,7 +15,6 @@ body {
 button {
   outline: none;
   border: none;
-  cursor: pointer;
 }
 
 .background {
@@ -26,7 +27,6 @@ button {
   margin: auto;
   margin-top: 80px;
   border-radius: 32px;
-  border: solid #fbd85d;
 }
 
 .display {
@@ -36,17 +36,21 @@ button {
 .play {
   width: 6vw;
   height: 8vh;
-  background-color: #fbd85d;
+  background-color: var(--color--yellow);
   border: solid black;
   border-radius: 18px;
   font-size: 2.8vw;
-  color: #2c4a6a;
+  color: var(--color--blue);
   margin: 1vw 0;
   transition: all 300ms ease-out;
 }
 
 .play:hover {
   transform: scale(1.1);
+}
+
+.play > i {
+  cursor: pointer;
 }
 
 .timer {
@@ -66,7 +70,7 @@ button {
   width: 3vw;
   height: 6vh;
   background-color: gold;
-  color: #2c4a6a;
+  color: var(--color--blue);
   border-radius: 50%;
   border: solid black;
   line-height: 6vh;
@@ -75,12 +79,49 @@ button {
 }
 
 .figures {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  background-color: red;
   width: 100%;
   height: 65%;
   bottom: 0;
   border-radius: 0 0 32px 32px;
+}
+
+.replay {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 35%;
+  height: 45%;
+  border-radius: 24px;
+  background: rgba(255, 215, 0, 0.8);
+  z-index: 1;
+}
+
+.replayBtn {
+  width: 20%;
+  height: 45%;
+  border-radius: 12px;
+  font-size: 2.5vw;
+  color: var(--color--yellow);
+  background-color: #065c97;
+}
+
+.replayBtn:hover {
+  transform: scale(1.1);
+}
+
+.replayBtn i {
+  transform: scale(-1, -1);
+  cursor: pointer;
+}
+
+.description {
+  font-size: 2.5vw;
+  font-weight: bold;
 }
 
 .minions {

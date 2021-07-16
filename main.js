@@ -1,38 +1,71 @@
-const playBtn = document.querySelector(".play");
-const figures = document.querySelector(".figures");
-const total = 10;
+"use strict";
 
+let total = 10;
+const count = document.querySelector(".count");
+count.innerHTML = `<span class="number">${total}</span>`;
 // figures - width, height
+const figures = document.querySelector(".figures");
 const figuresLength = figures.getBoundingClientRect();
 const figuresLeft = figuresLength.left;
-console.log(figuresLeft);
 const figuresRight = figuresLength.right;
-console.log(figuresRight);
 const figuresTop = figuresLength.top;
-console.log(figuresTop);
 const figuresBottom = figuresLength.bottom;
-console.log(figuresBottom);
 
+// when play Btn, display minons random location
 function addMinions() {
-  let x, y;
+  if (figures.classList.contains(".replay")) {
+    return;
+  }
   for (let i = 0; i < total; i++) {
-    const bob = document.createElement("img");
-    bob.setAttribute("class", "minions");
-    bob.src = "img/bob.png";
-    const dave = document.createElement("img");
-    dave.setAttribute("class", "minions");
-    dave.src = "img/dave.png";
-    let x1 = Math.floor(Math.random() * (figuresRight - figuresLeft - 100));
-    let y1 = Math.floor(Math.random() * (figuresBottom - figuresTop - 100));
-    bob.style.left = x1 + "px";
-    bob.style.top = y1 + "px";
-    let x2 = Math.floor(Math.random() * (figuresRight - figuresLeft - 100));
-    let y2 = Math.floor(Math.random() * (figuresBottom - figuresTop - 100));
-    dave.style.left = x2 + "px";
-    dave.style.top = y2 + "px";
-    figures.appendChild(bob);
-    figures.appendChild(dave);
+    const bobElement = document.createElement("img");
+    const daveElement = document.createElement("img");
+    createMinion(bobElement, "bob");
+    createMinion(daveElement, "dave");
   }
 }
+function createMinion(minion, name) {
+  minion.setAttribute("class", "minions");
+  minion.setAttribute("data-key", name);
+  minion.src = `img/${name}.png`;
+  let x1 = Math.floor(Math.random() * (figuresRight - figuresLeft - 80));
+  let y1 = Math.floor(Math.random() * (figuresBottom - figuresTop - 80));
+  minion.style.left = x1 + "px";
+  minion.style.top = y1 + "px";
+  figures.appendChild(minion);
+}
 
-playBtn.addEventListener("click", addMinions);
+// change playBtn => stopBtn
+const imgBtn = document.querySelector(".play>i");
+imgBtn.addEventListener("click", (event) => {
+  addMinions();
+  imgBtn.setAttribute("class", "fas fa-square");
+});
+
+const replay = document.createElement("div"); // 전역으로 하나만 만들어놔서 하나만 생성된다.
+const minions = document.querySelector(".minions");
+
+// when click, remove minions
+figures.addEventListener("click", (event) => {
+  const target = event.target;
+  const name = target.dataset.key;
+  let win;
+  if (name === "bob") {
+    figures.removeChild(target);
+    total--;
+    count.innerHTML = `<span class="number">${total}</span>`;
+    if (total === 0) {
+      win = "WON 🎉";
+      figures.appendChild(replayDisplay(win));
+    }
+  } else if (name === "dave") {
+    win = "LOST 🤣";
+    figures.appendChild(replayDisplay(win));
+  }
+});
+
+function replayDisplay(win) {
+  replay.setAttribute("class", "replay");
+  replay.innerHTML = `<button class="replayBtn"><i class="fas fa-undo"></i></button>
+  <span class="description">YOU ${win}</span>`;
+  return replay;
+}
