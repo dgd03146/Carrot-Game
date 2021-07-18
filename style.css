@@ -10,6 +10,7 @@ body {
   background-image: url("img/minion-biz-featured.jpg");
 
   background-repeat: no-repeat;
+  cursor: default;
 }
 
 button {
@@ -25,7 +26,7 @@ button {
   width: 70vw;
   height: 80vh;
   margin: auto;
-  margin-top: 80px;
+  margin-top: 5vh;
   border-radius: 32px;
 }
 
@@ -36,6 +37,7 @@ button {
 .play {
   width: 6vw;
   height: 8vh;
+  line-height: 8vh;
   background-color: var(--color--yellow);
   border: solid black;
   border-radius: 18px;
@@ -55,11 +57,11 @@ button {
 
 .timer {
   margin: auto;
-  width: 10vw;
-  height: 5vh;
+  width: 5vw;
+  height: 6vh;
   background-color: white;
-  line-height: 5vh;
-  font-size: 2vw;
+  line-height: 6vh;
+  font-size: 2.3vw;
   border-radius: 24px;
   border: black solid;
   margin-bottom: 1vw;
@@ -119,6 +121,10 @@ button {
   cursor: pointer;
 }
 
+.replayBtn .fas {
+  transform: none;
+}
+
 .description {
   font-size: 2.5vw;
   font-weight: bold;
@@ -128,4 +134,62 @@ button {
   position: absolute;
   top: 0px;
   cursor: pointer;
+  transition: all 300ms ease-out;
+}
+
+.minions:hover {
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 768px) {
+  .background {
+    background-image: url("img/mobile-background2.png");
+    background-size: 100vw 100vh;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0px;
+  }
+  .play {
+    width: 9vh;
+    height: 9vh;
+    line-height: 9vh;
+    font-size: 5vh;
+    margin: 2.5vh;
+  }
+
+  .timer {
+    width: 10vh;
+    height: 5vh;
+    background-color: white;
+    line-height: 5vh;
+    font-size: 4vh;
+    margin-bottom: 2.5vh;
+  }
+  .count {
+    width: 5vh;
+    height: 5vh;
+    background-color: gold;
+    color: var(--color--blue);
+    line-height: 5vh;
+    font-size: 3vh;
+  }
+
+  .figures {
+    width: 100%;
+    height: 70%;
+  }
+  .replay {
+    width: 65%;
+    height: 35%;
+  }
+
+  .replayBtn {
+    width: 35%;
+    height: 50%;
+    font-size: 6vh;
+  }
+  .description {
+    font-size: 3vh;
+  }
 }
