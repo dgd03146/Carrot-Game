@@ -19,6 +19,7 @@ button {
 }
 
 .background {
+  text-align: center;
   position: relative;
   background-image: url("img/background.png");
   background-repeat: no-repeat;
@@ -35,6 +36,7 @@ button {
 }
 
 .play {
+  text-align: center;
   width: 6vw;
   height: 8vh;
   line-height: 8vh;
@@ -56,6 +58,7 @@ button {
 }
 
 .timer {
+  text-align: center;
   margin: auto;
   width: 5vw;
   height: 6vh;
@@ -68,6 +71,7 @@ button {
 }
 
 .count {
+  text-align: center;
   margin: auto;
   width: 3vw;
   height: 6vh;
@@ -104,6 +108,7 @@ button {
 }
 
 .replayBtn {
+  text-align: center;
   width: 20%;
   height: 45%;
   border-radius: 12px;
