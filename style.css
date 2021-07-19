@@ -45,7 +45,7 @@ button {
   border-radius: 18px;
   font-size: 2.8vw;
   color: var(--color--blue);
-  margin: 1vw 0;
+  margin: 1vw auto;
   transition: all 300ms ease-out;
 }
 
@@ -54,6 +54,7 @@ button {
 }
 
 .play > i {
+  text-align: center;
   cursor: pointer;
 }
 
@@ -109,6 +110,7 @@ button {
 
 .replayBtn {
   text-align: center;
+  margin: 0 auto;
   width: 20%;
   height: 45%;
   border-radius: 12px;
@@ -160,7 +162,7 @@ button {
     height: 9vh;
     line-height: 9vh;
     font-size: 5vh;
-    margin: 2.5vh;
+    margin: 2.5vh auto;
   }
 
   .timer {
