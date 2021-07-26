@@ -1,24 +1,25 @@
 "use strict";
 
-let win;
+const MINION_SIZE = 75;
+let message;
 let total = 10;
 let timeLeft = 10;
 let timerId;
 let level = 1;
 let bobElement, daveElement, kevinElement, stuartElement;
-// const minions = ["bob", "dave", "kevin", "stuart"];
+
+//sound
+const bobSound = new Audio("sound/carrot_pull.mp3");
+const minionSound = new Audio("sound/bug_pull.mp3");
+const winSound = new Audio("sound/game_win.mp3");
+const alertSound = new Audio("sound/alert.wav");
 
 const timer = document.querySelector(".timer");
-timer.innerText = timeLeft;
 const count = document.querySelector(".count");
-count.innerHTML = `<span class="number">${total}</span>`;
+
 // figures - width, height
 const figures = document.querySelector(".figures");
-const figuresLength = figures.getBoundingClientRect();
-const figuresLeft = figuresLength.left;
-const figuresRight = figuresLength.right;
-const figuresTop = figuresLength.top;
-const figuresBottom = figuresLength.bottom;
+const figuresRect = figures.getBoundingClientRect();
 const replay = document.createElement("div"); // 전역으로 하나만 만들어놔서 하나만 생성된다.
 
 // when play Btn, display minons random location
@@ -50,14 +51,22 @@ function setElement(Element, name) {
 }
 
 function createMinion(minion, name) {
+  const x1 = 0;
+  const y1 = 0;
+  const x2 = figuresRect.width - MINION_SIZE;
+  const y2 = figuresRect.height - MINION_SIZE;
   minion.setAttribute("class", "minions");
   minion.setAttribute("data-key", name);
   minion.src = `img/${name}.png`;
-  let x1 = Math.floor(Math.random() * (figuresRight - figuresLeft - 75));
-  let y1 = Math.floor(Math.random() * (figuresBottom - figuresTop - 75));
-  minion.style.left = x1 + "px";
-  minion.style.top = y1 + "px";
+  const x = randomNumber(x1, x2);
+  const y = randomNumber(y1, y2);
+  minion.style.left = x + "px";
+  minion.style.top = y + "px";
   figures.appendChild(minion);
+}
+
+function randomNumber(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 // change playBtn => stopBtn
@@ -74,53 +83,38 @@ function playGame() {
   }, 1000);
   if (playBtn.classList.value === "fas fa-square") {
     // 정지버튼 눌렀을때
+    alertSound.play();
     lose();
-    pauseTime();
     return;
   } else {
-    // remove all minions
-    if (document.body.contains(replay)) {
-      figures.querySelectorAll("*").forEach((minion) => minion.remove());
-    }
+    figures.innerHTML = "";
     // play
-    total = 10;
-    count.innerHTML = `<span class="number">${total}</span>`;
-    bgMusic.play();
-    addMinions();
-    playBtn.setAttribute("class", "fas fa-square");
-    resetTime();
+    initGame();
   }
+}
+
+function initGame() {
+  total = 10;
+  count.innerHTML = `<span class="number">${total}</span>`;
+  bgMusic.play();
+  addMinions();
+  playBtn.setAttribute("class", "fas fa-square");
+  resetTime();
 }
 
 // when click, remove minions
 figures.addEventListener("click", (event) => {
-  if (document.body.contains(replay)) {
-    pauseTime();
-    return;
-  }
   const target = event.target;
   const name = target.dataset.key;
   if (name === "bob") {
     figures.removeChild(target);
+    bobSound.play();
     total--;
     count.innerHTML = `<span class="number">${total}</span>`;
-    if (total === 0) {
-      if (level === 3) {
-        win = "Congraturation 🎉";
-        figures.appendChild(replayDisplay(win));
-        level = 1;
-        playBtn.setAttribute("class", "fas fa-play");
-        pauseTime();
-      } else {
-        win = "NEXT LEVEL 🎉";
-        figures.appendChild(replayDisplay(win));
-        pauseTime();
-        playBtn.setAttribute("class", "fas fa-play");
-      }
-    }
+    win();
   } else if (name === "dave" || name === "kevin" || name === "stuart") {
+    minionSound.play();
     lose();
-    pauseTime();
   }
 });
 
@@ -137,23 +131,23 @@ function resetTime() {
 function countDown() {
   timeLeft--;
   if (timeLeft === 0) {
+    minionSound.play();
     lose();
-    clearTimeout(timerId);
   }
   timer.innerText = timeLeft;
 }
 
 // pop up when win or lose
-function replayDisplay(win) {
+function replayDisplay(msg) {
   replay.setAttribute("class", "replay");
-  if (win === "YOU LOST 🤣") {
+  if (msg === "YOU LOST 🤣") {
     replay.innerHTML = `<button class="replayBtn"><i class="fas fa-undo" data-key="undo"></i></button>
-  <span class="description">${win}</span>`;
-  } else if (win === "NEXT LEVEL 🎉") {
+  <span class="description">${msg}</span>`;
+  } else if (msg === "NEXT LEVEL 🎉") {
     replay.innerHTML = `<button class="replayBtn"><i class="fas fa-arrow-right" data-key="next"></i></button>
-  <span class="description">${win}</span>`;
+  <span class="description">${msg}</span>`;
   } else {
-    replay.innerHTML = `<span class="description">${win}</span>`;
+    replay.innerHTML = `<span class="description">${msg}</span>`;
   }
   return replay;
 }
@@ -162,22 +156,47 @@ replay.addEventListener("click", (event) => {
   const target = event.target;
   const name = target.dataset.key;
   if (name === "undo") {
-    bgReset();
-    resetTime();
-    playGame();
+    undoGame();
   } else if (name === "next") {
-    resetTime();
-    level++;
-    playGame();
+    nextGame();
   }
 });
+
+function undoGame() {
+  bgReset();
+  resetTime();
+  playGame();
+}
+
+function nextGame() {
+  resetTime();
+  level++;
+  playGame();
+}
 
 // when lose game
 function lose() {
   bgReset();
-  win = "YOU LOST 🤣";
+  message = "YOU LOST 🤣";
   playBtn.setAttribute("class", "fas fa-play");
-  figures.appendChild(replayDisplay(win));
+  figures.appendChild(replayDisplay(message));
+  pauseTime();
+}
+
+// when win game
+function win() {
+  if (total === 0) {
+    winSound.play();
+    if (level === 3) {
+      message = "Congraturation 🎉";
+      level = 1;
+    } else {
+      message = "NEXT LEVEL 🎉";
+    }
+    figures.appendChild(replayDisplay(message));
+    pauseTime();
+    playBtn.setAttribute("class", "fas fa-play");
+  }
 }
 
 // bacground music reset

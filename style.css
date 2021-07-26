@@ -141,7 +141,7 @@ button {
   position: absolute;
   top: 0px;
   cursor: pointer;
-  transition: all 300ms ease-out;
+  transition: transform 100ms ease-out;
 }
 
 .minions:hover {
